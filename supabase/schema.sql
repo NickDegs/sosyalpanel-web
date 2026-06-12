@@ -29,3 +29,15 @@ create policy "own snapshots" on metric_snapshots  for all using (
 
 -- Index for fast snapshot lookups
 create index if not exists idx_snapshots_account_time on metric_snapshots (account_id, captured_at desc);
+
+-- Subscriptions (updated by Stripe webhook / Coinbase Commerce webhook)
+create table if not exists user_subscriptions (
+  user_id  uuid primary key references auth.users,
+  plan     text not null default 'free',
+  active   boolean not null default false,
+  updated_at timestamptz not null default now()
+);
+
+alter table user_subscriptions enable row level security;
+create policy "own subscription" on user_subscriptions for select using (auth.uid() = user_id);
+-- Webhooks use service_role key, no user-level insert/update policy needed
