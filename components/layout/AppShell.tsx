@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { InstallBanner } from '@/components/pwa/InstallBanner'
 
 const NAV = [
   { href: '/dashboard',  label: 'Genel',    icon: GridIcon    },
@@ -63,6 +64,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <main className="flex-1 md:ml-60 pb-20 md:pb-0 min-h-screen">
         {children}
       </main>
+
+      <InstallBanner />
 
       {/* Mobile Tab Bar */}
       <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 safe-bottom glass border-t border-white/[0.06]">

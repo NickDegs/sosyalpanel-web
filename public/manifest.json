@@ -1,14 +1,36 @@
 {
+  "id": "/dashboard",
   "name": "Social Panel",
   "short_name": "Social Panel",
-  "description": "Tüm sosyal medyan, tek ekranda",
+  "description": "Tüm sosyal medyan, tek ekranda — Instagram, TikTok, YouTube ve daha fazlası",
   "start_url": "/dashboard",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "background_color": "#06030F",
   "theme_color": "#06030F",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
+  "lang": "tr",
+  "dir": "ltr",
+  "categories": ["social", "productivity"],
+  "prefer_related_applications": false,
   "icons": [
-    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    { "src": "/api/icon/192", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/api/icon/512", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/api/icon/512", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Genel",
+      "url": "/dashboard",
+      "icons": [{ "src": "/api/icon/96", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Analiz",
+      "short_name": "Analiz",
+      "url": "/analytics",
+      "icons": [{ "src": "/api/icon/96", "sizes": "96x96", "type": "image/png" }]
+    }
   ]
 }

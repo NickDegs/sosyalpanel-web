@@ -15,6 +15,7 @@ create table if not exists metric_snapshots (
   account_id   uuid references tracked_accounts on delete cascade not null,
   followers    int not null,
   following    int,
+  posts        int,
   captured_at  timestamptz not null default now()
 );
 
