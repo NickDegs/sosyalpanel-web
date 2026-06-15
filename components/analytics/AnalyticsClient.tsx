@@ -114,7 +114,7 @@ export default function AnalyticsClient({ initialAccounts }: { initialAccounts: 
       </div>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
         <div className="glass rounded-2xl p-4">
           <p className="text-white/40 text-[11px] font-semibold uppercase tracking-wider mb-1">Toplam Erişim</p>
           <p className="text-white text-[22px] font-bold">{summary.total.toLocaleString('tr-TR')}</p>
@@ -517,7 +517,7 @@ function MetricEntryCard({
           </div>
         )}
       </div>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
         <input
           value={followers}
           onChange={e => setFollowers(e.target.value)}
