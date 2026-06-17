@@ -51,7 +51,7 @@ export default function PrivacyPage() {
       <h2>Veri Silme</h2>
       <p>
         Hesabınızı ve tüm ilişkili verilerinizi istediğiniz zaman silebilirsiniz. Silme talebi için{' '}
-        <a href="mailto:privacy@realvirtuality.app">privacy@realvirtuality.app</a> adresine
+        <a href="mailto:daclen10@icloud.com">daclen10@icloud.com</a> adresine
         yazabilirsiniz; talebiniz en geç 30 gün içinde işlenir.
       </p>
 
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
 
       <h2>İletişim</h2>
       <p>
-        Sorularınız için: <a href="mailto:privacy@realvirtuality.app">privacy@realvirtuality.app</a>
+        Sorularınız için: <a href="mailto:daclen10@icloud.com">daclen10@icloud.com</a>
       </p>
     </main>
   )

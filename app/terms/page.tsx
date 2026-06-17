@@ -54,7 +54,7 @@ export default function TermsPage() {
 
       <h2>İletişim</h2>
       <p>
-        Sorularınız için: <a href="mailto:destek@realvirtuality.app">destek@realvirtuality.app</a>
+        Sorularınız için: <a href="mailto:daclen10@icloud.com">daclen10@icloud.com</a>
       </p>
     </main>
   )
