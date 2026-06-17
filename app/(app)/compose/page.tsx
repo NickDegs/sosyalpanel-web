@@ -94,8 +94,9 @@ export default function ComposePage() {
           })}
         </div>
         {selected.size > 0 && (
-          <p className="mt-3 text-white/30 text-[11px] flex items-center gap-1">
-            <span>ℹ️</span> Metin panoya kopyalanır, platform sayfası açılır.
+          <p className="mt-3 text-white/30 text-[11px] flex items-center gap-1.5">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.6" className="flex-shrink-0"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" strokeLinecap="round"/></svg>
+            Metin panoya kopyalanır, platform sayfası açılır.
           </p>
         )}
       </div>

@@ -35,3 +35,23 @@ export function CheckIcon({ size = 14, className }: { size?: number; className?:
     </svg>
   )
 }
+
+type IconProps = { size?: number; className?: string }
+const base = (p: IconProps) => ({
+  viewBox: '0 0 24 24', width: p.size ?? 18, height: p.size ?? 18,
+  fill: 'none' as const, stroke: 'currentColor', strokeWidth: 1.6,
+  strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, className: p.className,
+})
+
+export const ClockIcon = (p: IconProps) => (
+  <svg {...base(p)}><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+)
+export const BulbIcon = (p: IconProps) => (
+  <svg {...base(p)}><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10.5c.7.7 1 1.3 1 2.5h6c0-1.2.3-1.8 1-2.5A6 6 0 0012 3z" /></svg>
+)
+export const HashIcon = (p: IconProps) => (
+  <svg {...base(p)}><path d="M5 9h14M5 15h14M9 4l-2 16M17 4l-2 16" /></svg>
+)
+export const ShieldIcon = (p: IconProps) => (
+  <svg {...base(p)}><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /></svg>
+)
