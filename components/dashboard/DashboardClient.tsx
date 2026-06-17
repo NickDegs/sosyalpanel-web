@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { TrackedAccountWithSnapshots, PLATFORMS, Platform } from '@/lib/types'
 import { PlatformIcon } from '@/components/icons/PlatformIcon'
+import { ChartGlyph, CloseIcon } from '@/components/icons/Glyphs'
 
 export default function DashboardClient({ initialAccounts }: { initialAccounts: TrackedAccountWithSnapshots[] }) {
   const [accounts, setAccounts] = useState(initialAccounts)
@@ -197,7 +198,7 @@ function AccountCard({
 function EmptyState({ onAdd }: { onAdd: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
-      <div className="text-5xl">📊</div>
+      <ChartGlyph size={48} className="text-white/25" />
       <div>
         <p className="text-white font-semibold text-[17px]">Henüz hesap yok</p>
         <p className="text-white/40 text-[13px] mt-1">İlk hesabını ekle ve takip etmeye başla</p>
@@ -248,8 +249,8 @@ function AddAccountSheet({
       <div className="relative z-10 w-full md:max-w-md glass rounded-t-3xl md:rounded-3xl p-6 border border-white/10">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-[18px] font-bold text-white">Hesap Ekle</h2>
-          <button onClick={onClose} className="text-white/40 hover:text-white p-1">
-            ✕
+          <button onClick={onClose} className="text-white/40 hover:text-white p-1" aria-label="Kapat">
+            <CloseIcon size={18} />
           </button>
         </div>
 

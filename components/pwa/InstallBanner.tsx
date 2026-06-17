@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { CloseIcon } from '@/components/icons/Glyphs'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let deferredPrompt: any = null
@@ -78,8 +79,9 @@ export function InstallBanner() {
         <button
           onClick={dismiss}
           className="p-1.5 text-white/30 hover:text-white/60 flex-shrink-0"
+          aria-label="Kapat"
         >
-          ✕
+          <CloseIcon size={16} />
         </button>
       </div>
     </div>

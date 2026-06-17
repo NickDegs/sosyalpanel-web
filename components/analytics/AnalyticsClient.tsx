@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { TrackedAccountWithSnapshots, MetricSnapshot, PLATFORMS, Platform } from '@/lib/types'
 import { PlatformIcon } from '@/components/icons/PlatformIcon'
+import { ChartGlyph, CheckIcon } from '@/components/icons/Glyphs'
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer,
   Area, AreaChart, CartesianGrid, Legend,
@@ -86,7 +87,7 @@ export default function AnalyticsClient({ initialAccounts }: { initialAccounts: 
       <div className="p-5 md:p-8">
         <h1 className="text-[28px] font-bold text-white mb-6">Analiz</h1>
         <div className="flex flex-col items-center py-20 gap-3 text-center">
-          <div className="text-5xl">📈</div>
+          <ChartGlyph size={48} className="text-white/25" />
           <p className="text-white font-semibold text-[17px]">Henüz hesap yok</p>
           <p className="text-white/40 text-[13px]">Dashboard&apos;dan hesap ekleyin.</p>
         </div>
@@ -276,7 +277,7 @@ function SingleAccountChart({
 
       {snapshots.length < 2 ? (
         <div className="flex flex-col items-center py-10 gap-2 text-center">
-          <div className="text-4xl">📊</div>
+          <ChartGlyph size={40} className="text-white/25" />
           <p className="text-white/40 text-[13px]">En az 2 veri noktası gerekli.</p>
           <p className="text-white/25 text-[12px]">Güncelle sekmesinden ekleyin.</p>
         </div>
@@ -387,7 +388,7 @@ function ComparisonChart({
   if (datasets.length === 0) {
     return (
       <div className="glass rounded-2xl p-8 text-center">
-        <div className="text-4xl mb-3">📊</div>
+        <div className="mb-3 flex justify-center"><ChartGlyph size={40} className="text-white/25" /></div>
         <p className="text-white/40 text-[13px]">
           Karşılaştırma için en az 2 hesapta 2&apos;şer veri noktası olmalı.
         </p>
@@ -549,7 +550,7 @@ function MetricEntryCard({
             className="px-3 h-10 rounded-xl font-semibold text-[13px] text-white disabled:opacity-40 transition-all active:scale-95 flex-shrink-0"
             style={{ background: 'linear-gradient(135deg, #7C3AED, #1D4ED8)' }}
           >
-            {saving ? '…' : '✓'}
+            {saving ? '…' : <CheckIcon size={16} className="mx-auto" />}
           </button>
         </div>
       </div>
