@@ -11,11 +11,31 @@
 * { box-sizing: border-box; }
 
 body {
-  background: #06030F;
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+  background: #0B0A09;
+  color: #F5F3EF;
+  /* Editorial gövde: Newsreader serif */
+  font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
+
+/* Editorial başlıklar: Fraunces display serif */
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display), Georgia, serif;
+  letter-spacing: -0.015em;
+}
+
+/* Sans yardımcı (sayısal veri, rozet, etiket) */
+.font-sans-ui {
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+/* Editorial ince ayraç çizgisi */
+.rule { border: 0; border-top: 1px solid rgba(245,243,239,0.12); }
 
 /* Glass card */
 .glass {

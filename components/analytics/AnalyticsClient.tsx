@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { TrackedAccountWithSnapshots, MetricSnapshot, PLATFORMS, Platform } from '@/lib/types'
+import { PlatformIcon } from '@/components/icons/PlatformIcon'
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer,
   Area, AreaChart, CartesianGrid, Legend,
@@ -131,8 +132,9 @@ export default function AnalyticsClient({ initialAccounts }: { initialAccounts: 
           <p className="text-white/40 text-[11px] font-semibold uppercase tracking-wider mb-1">En İyi</p>
           {summary.best ? (
             <>
-              <p className="text-white text-[14px] font-bold truncate">
-                {PLATFORMS[summary.best.platform as Platform]?.icon} @{summary.best.username}
+              <p className="text-white text-[14px] font-bold truncate flex items-center gap-1.5">
+                <PlatformIcon platform={summary.best.platform as Platform} size={15} className="flex-shrink-0" />
+                @{summary.best.username}
               </p>
               <p className="text-white/40 text-[11px] mt-0.5">
                 {(getLatest(summary.best)?.followers ?? 0).toLocaleString('tr-TR')} takipçi
@@ -178,7 +180,7 @@ export default function AnalyticsClient({ initialAccounts }: { initialAccounts: 
                       : 'border-white/10 bg-white/5 text-white/60 hover:bg-white/10'
                   }`}
                 >
-                  <span>{p.icon}</span> @{acc.username}
+                  <PlatformIcon platform={acc.platform as Platform} size={14} /> @{acc.username}
                   {g !== null && (
                     <span className={`text-[10px] font-bold ${g >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                       {g >= 0 ? '+' : ''}{g.toFixed(1)}%
@@ -244,7 +246,7 @@ function SingleAccountChart({
       <div className="flex items-start justify-between mb-5">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xl">{p.icon}</span>
+            <span style={{ color: p.color }}><PlatformIcon platform={account.platform as Platform} size={18} /></span>
             <span className="text-white font-semibold">{p.label} · @{account.username}</span>
           </div>
           <div className="flex items-baseline gap-3">
@@ -503,8 +505,8 @@ function MetricEntryCard({
   return (
     <div className="glass rounded-2xl p-4">
       <div className="flex items-center gap-3 mb-3">
-        <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg ${p.bg}`}>
-          {p.icon}
+        <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${p.bg}`} style={{ color: p.color }}>
+          <PlatformIcon platform={account.platform as Platform} size={18} />
         </div>
         <div className="flex-1">
           <p className="text-white font-semibold text-[14px]">{p.label}</p>

@@ -1,6 +1,23 @@
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
+import { Fraunces, Newsreader } from 'next/font/google'
 import './globals.css'
+
+// Editorial tipografi: Fraunces = display başlık (yüksek kontrast serif),
+// Newsreader = gövde metni (ekranda okunur editorial serif).
+const display = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+})
+const serif = Newsreader({
+  subsets: ['latin'],
+  variable: '--font-serif',
+  display: 'swap',
+  style: ['normal', 'italic'],
+})
 
 export const metadata: Metadata = {
   title: { default: 'Social Panel', template: '%s — Social Panel' },
@@ -37,7 +54,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="tr">
+    <html lang="tr" className={`${display.variable} ${serif.variable}`}>
       <body>
         {children}
         <Script id="sw-register" strategy="afterInteractive">

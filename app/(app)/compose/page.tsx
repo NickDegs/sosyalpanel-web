@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { PLATFORMS, Platform } from '@/lib/types'
+import { PlatformIcon } from '@/components/icons/PlatformIcon'
 
 const POSTABLE: Platform[] = ['instagram', 'threads', 'bluesky', 'mastodon', 'reddit']
 const CHAR_LIMITS: Partial<Record<Platform, number>> = {
@@ -85,9 +86,9 @@ export default function ComposePage() {
                     ? 'border-violet-500/50 bg-violet-500/20 text-violet-300'
                     : 'border-white/10 bg-white/5 text-white/60 hover:bg-white/10'
                 }`}>
-                <span>{info.icon}</span>
+                <PlatformIcon platform={p} size={15} />
                 {info.label}
-                {sel && copied === p && <span className="text-emerald-400 text-[10px]">✓ kopyalandı</span>}
+                {sel && copied === p && <span className="text-emerald-400 text-[10px]">kopyalandı</span>}
               </button>
             )
           })}

@@ -2,8 +2,12 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { PlatformIcon } from '@/components/icons/PlatformIcon'
+import { PLATFORMS, type Platform } from '@/lib/types'
 
 type Provider = 'apple' | 'google'
+
+const BADGE_PLATFORMS: Platform[] = ['instagram', 'tiktok', 'youtube', 'facebook', 'bluesky', 'twitter', 'threads']
 
 export default function LoginPage() {
   const [loading, setLoading] = useState<Provider | null>(null)
@@ -57,12 +61,13 @@ export default function LoginPage() {
 
         {/* Platform badges */}
         <div className="flex items-center gap-2 flex-wrap justify-center">
-          {['📸', '🎵', '▶', '💙', '🦋', '✦', '◎'].map((icon, i) => (
+          {BADGE_PLATFORMS.map((key) => (
             <span
-              key={i}
-              className="glass px-2.5 py-1 rounded-full text-[14px] border-white/10"
+              key={key}
+              className="glass px-2.5 py-2 rounded-full border-white/10"
+              style={{ color: PLATFORMS[key].color }}
             >
-              {icon}
+              <PlatformIcon platform={key} size={15} title={PLATFORMS[key].label} />
             </span>
           ))}
         </div>

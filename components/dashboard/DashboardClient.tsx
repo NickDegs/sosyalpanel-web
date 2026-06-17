@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { TrackedAccountWithSnapshots, PLATFORMS, Platform } from '@/lib/types'
+import { PlatformIcon } from '@/components/icons/PlatformIcon'
 
 export default function DashboardClient({ initialAccounts }: { initialAccounts: TrackedAccountWithSnapshots[] }) {
   const [accounts, setAccounts] = useState(initialAccounts)
@@ -69,7 +70,7 @@ export default function DashboardClient({ initialAccounts }: { initialAccounts: 
             <p className="text-white/40 text-[11px] font-semibold uppercase tracking-wider">Platform</p>
             <div className="flex gap-1 mt-1">
               {[...new Set(accounts.map(a => a.platform))].slice(0, 6).map(p => (
-                <span key={p} className="text-lg">{PLATFORMS[p as Platform]?.icon}</span>
+                <PlatformIcon key={p} platform={p as Platform} size={18} className="text-white/70" />
               ))}
             </div>
           </div>
@@ -142,8 +143,8 @@ function AccountCard({
   return (
     <div className="glass rounded-2xl p-4 flex flex-col gap-3 group relative">
       <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl ${p.bg}`}>
-          {p.icon}
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${p.bg}`} style={{ color: p.color }}>
+          <PlatformIcon platform={account.platform as Platform} size={20} title={p.label} />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-white font-semibold text-[14px] truncate">{p.label}</p>
@@ -265,7 +266,7 @@ function AddAccountSheet({
                   : 'border-white/10 bg-white/5 text-white/60 hover:bg-white/10'
               }`}
             >
-              <span>{p.icon}</span> {p.label}
+              <PlatformIcon platform={key} size={15} /> {p.label}
             </button>
           ))}
         </div>
