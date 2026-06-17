@@ -1,0 +1,37 @@
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+.wrap h1 {
+  font-size: 34px;
+  line-height: 1.15;
+  color: #F5F3EF;
+  margin: 0 0 8px;
+}
+.meta {
+  color: rgba(245, 243, 239, 0.4);
+  font-size: 13px;
+  margin-bottom: 36px;
+}
+.wrap h2 {
+  font-size: 20px;
+  color: #F5F3EF;
+  margin: 36px 0 12px;
+}
+.wrap p, .wrap li {
+  color: rgba(245, 243, 239, 0.72);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.wrap ul { padding-left: 20px; margin: 8px 0; }
+.wrap li { margin: 4px 0; }
+.wrap a { color: #A78BFA; text-decoration: underline; }
+.back {
+  display: inline-block;
+  color: rgba(245, 243, 239, 0.5);
+  font-size: 14px;
+  margin-bottom: 28px;
+  text-decoration: none;
+}
+.back:hover { color: #F5F3EF; }
