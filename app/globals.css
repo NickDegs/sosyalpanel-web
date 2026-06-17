@@ -13,28 +13,69 @@
 body {
   background: #0B0A09;
   color: #F5F3EF;
-  /* Editorial gövde: Newsreader serif */
-  font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
   font-size: 16px;
-  line-height: 1.6;
-  letter-spacing: 0.01em;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Editorial başlıklar: Fraunces display serif */
-h1, h2, h3, h4, .font-display {
-  font-family: var(--font-display), Georgia, serif;
-  letter-spacing: -0.015em;
+/* ============================================================
+   SEÇİLEBİLİR YAZI TİPİ TEMALARI  (varsayılan: iOS 26 sistem)
+   data-font html attribute'una göre uygulanır.
+   ============================================================ */
+
+/* 1) iOS 26 — Apple sistem fontu (SF Pro). VARSAYILAN */
+html[data-font="ios26"] body,
+html:not([data-font]) body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  letter-spacing: -0.011em;
+}
+html[data-font="ios26"] h1, html[data-font="ios26"] h2,
+html[data-font="ios26"] h3, html[data-font="ios26"] h4,
+html[data-font="ios26"] .font-display,
+html:not([data-font]) h1, html:not([data-font]) h2, html:not([data-font]) h3 {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+  letter-spacing: -0.022em;
 }
 
-/* Sans yardımcı (sayısal veri, rozet, etiket) */
+/* 2) Editorial — Fraunces display + Newsreader gövde (serif) */
+html[data-font="editorial"] body {
+  font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
+  letter-spacing: 0.01em; line-height: 1.6;
+}
+html[data-font="editorial"] h1, html[data-font="editorial"] h2,
+html[data-font="editorial"] h3, html[data-font="editorial"] h4,
+html[data-font="editorial"] .font-display {
+  font-family: var(--font-display), Georgia, serif; letter-spacing: -0.015em;
+}
+
+/* 3) Inter — modern temiz sans (her yer) */
+html[data-font="inter"] body,
+html[data-font="inter"] h1, html[data-font="inter"] h2,
+html[data-font="inter"] h3, html[data-font="inter"] h4,
+html[data-font="inter"] .font-display {
+  font-family: var(--font-inter), system-ui, sans-serif; letter-spacing: -0.01em;
+}
+
+/* 4) Klasik — Georgia serif (web-safe) */
+html[data-font="georgia"] body,
+html[data-font="georgia"] h1, html[data-font="georgia"] h2,
+html[data-font="georgia"] h3, html[data-font="georgia"] h4,
+html[data-font="georgia"] .font-display {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+/* 5) Mono — teknik monospace */
+html[data-font="mono"] body,
+html[data-font="mono"] h1, html[data-font="mono"] h2,
+html[data-font="mono"] h3, html[data-font="mono"] h4,
+html[data-font="mono"] .font-display {
+  font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace; letter-spacing: -0.02em;
+}
+
 .font-sans-ui {
-  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  letter-spacing: 0;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; letter-spacing: 0;
 }
-
-/* Editorial ince ayraç çizgisi */
 .rule { border: 0; border-top: 1px solid rgba(245,243,239,0.12); }
 
 /* Glass card */

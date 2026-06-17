@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
-import { Fraunces, Newsreader } from 'next/font/google'
+import { Fraunces, Newsreader, Inter } from 'next/font/google'
 import './globals.css'
 
-// Editorial tipografi: Fraunces = display başlık (yüksek kontrast serif),
-// Newsreader = gövde metni (ekranda okunur editorial serif).
+// Seçilebilir yazı tipi temaları (varsayılan: iOS 26 sistem fontu).
+// Editorial = Fraunces (display başlık) + Newsreader (gövde serif).
 const display = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
@@ -18,6 +18,14 @@ const serif = Newsreader({
   display: 'swap',
   style: ['normal', 'italic'],
 })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+// Tema localStorage'dan render öncesi okunur (FOUC önleme). Varsayılan: ios26.
+const FONT_INIT = `try{var f=localStorage.getItem('fontTheme')||'ios26';document.documentElement.setAttribute('data-font',f)}catch(e){document.documentElement.setAttribute('data-font','ios26')}`
 
 export const metadata: Metadata = {
   title: { default: 'Social Panel', template: '%s — Social Panel' },
@@ -54,7 +62,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="tr" className={`${display.variable} ${serif.variable}`}>
+    <html lang="tr" data-font="ios26" className={`${display.variable} ${serif.variable} ${inter.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: FONT_INIT }} />
+      </head>
       <body>
         {children}
         <Script id="sw-register" strategy="afterInteractive">
