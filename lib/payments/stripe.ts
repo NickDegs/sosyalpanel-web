@@ -19,7 +19,7 @@ export const PLANS = {
   pro: {
     id: 'pro',
     name: 'Pro',
-    price: 99,
+    price: 399,
     currency: 'try',
     interval: 'month' as const,
     features: ['Sınırsız hesap', 'Son 90 veri', 'Gelişmiş analiz', 'CSV dışa aktarma'],
@@ -28,12 +28,12 @@ export const PLANS = {
   yearly: {
     id: 'yearly',
     name: 'Pro Yıllık',
-    price: 799,
+    price: 2990,
     currency: 'try',
     interval: 'year' as const,
-    features: ['Pro\'nun tüm özellikleri', '2 ay ücretsiz'],
+    features: ['Pro\'nun tüm özellikleri', 'Ayda yalnızca ~249₺', 'Yılda 1.798₺ tasarruf'],
     stripePriceId: process.env.STRIPE_YEARLY_PRICE_ID ?? null,
-    badge: '%33 indirim',
+    badge: '%38 indirim',
   },
 } as const
 
