@@ -25,7 +25,13 @@ export async function POST(request: Request) {
 
   const db = adminDb()
   const { error } = await db.from('admin_codes').insert(codes.map((code) => ({ code })))
-  if (error) return NextResponse.json({ error: 'kod kaydedilemedi' }, { status: 500 })
+  if (error) return NextResponse.json({
+    error: 'kod kaydedilemedi',
+    detail: error.message,
+    hasUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+    hasKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+    urlTail: (process.env.NEXT_PUBLIC_SUPABASE_URL || '').slice(-18),
+  }, { status: 500 })
 
   return NextResponse.json({ codes })
 }
