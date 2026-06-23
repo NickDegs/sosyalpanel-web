@@ -4,16 +4,22 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { PlatformIcon } from '@/components/icons/PlatformIcon'
 import { PLATFORMS, type Platform } from '@/lib/types'
+import { CountryPicker } from '@/components/auth/CountryPicker'
+import { DEFAULT_COUNTRY, type Country } from '@/lib/countries'
 
 const BADGE_PLATFORMS: Platform[] = ['instagram', 'tiktok', 'youtube', 'facebook', 'bluesky', 'twitter', 'threads']
 
 export default function LoginPage() {
   const router = useRouter()
   const [step, setStep] = useState<'phone' | 'code'>('phone')
+  const [country, setCountry] = useState<Country>(DEFAULT_COUNTRY)
   const [phone, setPhone] = useState('')
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Ülke kodu + ulusal numara → tam uluslararası numara.
+  const fullPhone = country.dial + phone.replace(/\D/g, '')
 
   async function sendCode() {
     setError(null); setLoading(true)
@@ -21,7 +27,7 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/sms-send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone }),
+        body: JSON.stringify({ phone: fullPhone }),
       })
       if (res.ok) setStep('code')
       else if (res.status === 400) setError('Geçersiz telefon numarası.')
@@ -39,7 +45,7 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/sms-verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, code }),
+        body: JSON.stringify({ phone: fullPhone, code }),
       })
       if (res.ok) {
         router.push('/dashboard')
@@ -114,16 +120,19 @@ export default function LoginPage() {
           </p>
 
           {step === 'phone' ? (
-            <input
-              type="tel"
-              inputMode="tel"
-              value={phone}
-              onChange={(e) => { setPhone(e.target.value); setError(null) }}
-              onKeyDown={(e) => { if (e.key === 'Enter' && phone && !loading) sendCode() }}
-              placeholder="+90 5xx xxx xx xx"
-              disabled={loading}
-              className="w-full h-[54px] rounded-2xl px-5 text-white text-[17px] glass outline-none placeholder:text-white/30 disabled:opacity-50"
-            />
+            <div className="flex gap-2">
+              <CountryPicker value={country} onChange={setCountry} disabled={loading} />
+              <input
+                type="tel"
+                inputMode="tel"
+                value={phone}
+                onChange={(e) => { setPhone(e.target.value); setError(null) }}
+                onKeyDown={(e) => { if (e.key === 'Enter' && phone && !loading) sendCode() }}
+                placeholder="5xx xxx xx xx"
+                disabled={loading}
+                className="flex-1 min-w-0 h-[54px] rounded-2xl px-5 text-white text-[17px] glass outline-none placeholder:text-white/30 disabled:opacity-50"
+              />
+            </div>
           ) : (
             <input
               type="text"
