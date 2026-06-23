@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { getSessionUser } from '@/lib/auth'
 import { createCryptoCharge } from '@/lib/payments/crypto'
 import { PLANS, PlanId } from '@/lib/payments/stripe'
 
 export async function POST(request: Request) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getSessionUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { planId } = await request.json() as { planId: PlanId }

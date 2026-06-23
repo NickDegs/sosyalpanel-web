@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { getBrowserUserId } from '@/lib/auth'
 import { TrackedAccountWithSnapshots, PLATFORMS, Platform } from '@/lib/types'
 import { PlatformIcon } from '@/components/icons/PlatformIcon'
 import { ChartGlyph, CloseIcon } from '@/components/icons/Glyphs'
@@ -230,13 +231,11 @@ function AddAccountSheet({
     if (!trimmed) return
     setSaving(true)
     const supabase = createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-    if (!user) return
+    const uid = getBrowserUserId()
+    if (!uid) { setSaving(false); return }
     const { data } = await supabase
       .from('tracked_accounts')
-      .insert({ platform, username: trimmed, user_id: user.id })
+      .insert({ platform, username: trimmed, user_id: uid })
       .select('*, metric_snapshots(*)')
       .single()
     if (data) onAdded(data)

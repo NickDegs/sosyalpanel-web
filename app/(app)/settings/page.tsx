@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
 const FONTS: { id: string; label: string; note: string; sample: string }[] = [
@@ -70,9 +69,9 @@ export default function SettingsPage() {
 
   async function signOut() {
     setLoading(true)
-    const supabase = createClient()
-    await supabase.auth.signOut()
+    await fetch('/api/auth/signout', { method: 'POST' }).catch(() => {})
     router.push('/')
+    router.refresh()
   }
 
   return (

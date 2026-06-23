@@ -1,13 +1,8 @@
-import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { SP_TOKEN, decodeJwt, isExpired } from '@/lib/auth'
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
-const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-const SUPABASE_READY = !!(SUPABASE_URL && SUPABASE_KEY && !SUPABASE_URL.includes('placeholder'))
-
+// SMS oturumu (custom JWT) çerezini kontrol eder. Gotrue oturumu kullanılmaz.
 export async function proxy(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request })
-
   const isAppRoute =
     request.nextUrl.pathname.startsWith('/dashboard') ||
     request.nextUrl.pathname.startsWith('/analytics') ||
@@ -16,37 +11,21 @@ export async function proxy(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/settings') ||
     request.nextUrl.pathname.startsWith('/upgrade')
 
-  // If Supabase not configured, allow everything through (demo mode)
-  if (!SUPABASE_READY) {
-    return supabaseResponse
-  }
+  const token = request.cookies.get(SP_TOKEN)?.value
+  const payload = token ? decodeJwt(token) : null
+  const loggedIn = !!payload && !isExpired(payload) && !!payload.sub
 
-  const supabase = createServerClient(SUPABASE_URL!, SUPABASE_KEY!, {
-    cookies: {
-      getAll() { return request.cookies.getAll() },
-      setAll(toSet) {
-        toSet.forEach(({ name, value }) => request.cookies.set(name, value))
-        supabaseResponse = NextResponse.next({ request })
-        toSet.forEach(({ name, value, options }) => supabaseResponse.cookies.set(name, value, options))
-      },
-    },
-  })
-
-  let user = null
-  try {
-    const { data } = await supabase.auth.getUser()
-    user = data.user
-  } catch {}
-
-  if (isAppRoute && !user) {
+  // Giriş gerektiren sayfaya girişsiz erişim → login'e
+  if (isAppRoute && !loggedIn) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  if (request.nextUrl.pathname === '/' && user) {
+  // Girişliyken login sayfası → dashboard'a
+  if (request.nextUrl.pathname === '/' && loggedIn) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
-  return supabaseResponse
+  return NextResponse.next({ request })
 }
 
 export const config = {
