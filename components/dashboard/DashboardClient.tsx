@@ -3,9 +3,11 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { getBrowserUserId } from '@/lib/auth'
-import { TrackedAccountWithSnapshots, PLATFORMS, Platform } from '@/lib/types'
+import { TrackedAccountWithSnapshots, MetricSnapshot, PLATFORMS, Platform } from '@/lib/types'
 import { PlatformIcon } from '@/components/icons/PlatformIcon'
 import { ChartGlyph, CloseIcon } from '@/components/icons/Glyphs'
+import DataImportModal from './DataImportModal'
+import ManualEntryModal from './ManualEntryModal'
 
 export default function DashboardClient({ initialAccounts }: { initialAccounts: TrackedAccountWithSnapshots[] }) {
   const [accounts, setAccounts] = useState(initialAccounts)
@@ -34,6 +36,14 @@ export default function DashboardClient({ initialAccounts }: { initialAccounts: 
 
   function onDeleted(id: string) {
     setAccounts(prev => prev.filter(a => a.id !== id))
+  }
+
+  function onSnapshot(accountId: string, snap: MetricSnapshot) {
+    setAccounts(prev => prev.map(a =>
+      a.id === accountId
+        ? { ...a, metric_snapshots: [...(a.metric_snapshots ?? []), snap] }
+        : a
+    ))
   }
 
   return (
@@ -85,7 +95,7 @@ export default function DashboardClient({ initialAccounts }: { initialAccounts: 
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {accounts.map(acc => (
-            <AccountCard key={acc.id} account={acc} onDeleted={onDeleted} />
+            <AccountCard key={acc.id} account={acc} onDeleted={onDeleted} onSnapshot={onSnapshot} />
           ))}
         </div>
       )}
@@ -118,11 +128,16 @@ function Sparkline({ snapshots, color }: { snapshots: { followers: number }[]; c
 function AccountCard({
   account,
   onDeleted,
+  onSnapshot,
 }: {
   account: TrackedAccountWithSnapshots
   onDeleted: (id: string) => void
+  onSnapshot: (accountId: string, snap: MetricSnapshot) => void
 }) {
   const p = PLATFORMS[account.platform as Platform]
+  const importSupported = account.platform === 'instagram' || account.platform === 'tiktok'
+  const [showManual, setShowManual] = useState(false)
+  const [showImport, setShowImport] = useState(false)
   const snapshots = [...(account.metric_snapshots ?? [])].sort(
     (a, b) => new Date(a.captured_at).getTime() - new Date(b.captured_at).getTime()
   )
@@ -192,6 +207,31 @@ function AccountCard({
           )}
         </div>
       </div>
+
+      {/* Aksiyonlar: manuel veri girişi + (IG/TikTok) resmi veri içe aktarma */}
+      <div className="flex flex-wrap gap-2 pt-1">
+        <button
+          onClick={() => setShowManual(true)}
+          className="px-2.5 py-1 rounded-lg text-[12px] font-medium text-white/70 bg-white/5 hover:bg-white/10 transition-all"
+        >
+          ✎ Veri Gir
+        </button>
+        {importSupported && (
+          <button
+            onClick={() => setShowImport(true)}
+            className="px-2.5 py-1 rounded-lg text-[12px] font-medium text-violet-300 bg-violet-500/10 hover:bg-violet-500/20 transition-all"
+          >
+            ⬆ Takip Analizi
+          </button>
+        )}
+      </div>
+
+      {showManual && (
+        <ManualEntryModal account={account} onClose={() => setShowManual(false)} onSnapshot={onSnapshot} />
+      )}
+      {showImport && (
+        <DataImportModal platform={account.platform as Platform} username={account.username} onClose={() => setShowImport(false)} />
+      )}
     </div>
   )
 }
